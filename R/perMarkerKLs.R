@@ -2,13 +2,15 @@
 #'
 #' @param ped Reference pedigree. It could be an input from read_fam() function or a pedigree built with pedtools.
 #' @param frequency Allele frequency database.
+#' @param MP missing person
 #' @return An object of class data.frame with KLs.
 #' @export
-#' @import pedprobr
+#' @importFrom pedprobr oneMarkerDistribution
 #' @import forrel
-#' @import mispitools
-#' @import dplyr
-#' @import radiant.data
+#' @importFrom mispitools getfreqs
+#' @importFrom dplyr mutate
+#' @importFrom magrittr %>%
+#' @importFrom radiant.data rownames_to_column
 #'
 #' @examples
 #' library(forrel)
@@ -16,10 +18,10 @@
 #' plot(x)
 #' x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:5])
 #' x = profileSim(x, N = 1, ids = 2)
-#' perMarkerKLs(x,  NorwegianFrequencies[1:5])
+#' perMarkerKLs(x, MP = 5 , NorwegianFrequencies[1:5])
 
 
-perMarkerKLs <- function(ped, frequency) {
+perMarkerKLs <- function(ped, MP, frequency) {
 KLpedpop <- list()
 KLpopped <- list()
 
@@ -28,7 +30,7 @@ for (i in 1:length(ped$MARKERS)) {
 #i = 3
 #ped <- x
 #frequency <- NorwegianFrequencies
-df <- as.data.frame(pedprobr::oneMarkerDistribution(ped, 5,i))
+df <- as.data.frame(pedprobr::oneMarkerDistribution(ped, MP,i))
 names(df) <- "CPT"
 df <- df %>% rownames_to_column(var = "Genotype")
 df <- df %>%
@@ -36,7 +38,7 @@ df <- df %>%
          Allele2 = sapply(strsplit(as.character(Genotype), "/"), `[`, 2))
 
 pop <- as.data.frame(frequency[i])
-pop <- pop %>% rownames_to_column(var = "Allele")
+pop <- pop %>% radiant.data::rownames_to_column(var = "Allele")
 names(pop) <- c("Allele","freq")
 
 df <- df %>% mutate(RPT = ifelse(pop$freq[match(Allele1, pop$Allele)] == pop$freq[match(Allele2, pop$Allele)], 

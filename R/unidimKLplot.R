@@ -4,8 +4,8 @@
 #' @return A scatterplot.
 #' @export
 #' @import ggplot2
-#' @import dplyr
-#' @import tidyr
+#' @importFrom dplyr mutate
+#' @importFrom tidyr gather
 #'
 #' @examples
 #' library(forrel)

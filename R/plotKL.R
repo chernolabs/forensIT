@@ -4,7 +4,6 @@
 #' @return A scatterplot.
 #' @export
 #' @import ggplot2
-#' @import dplyr
 #'
 #' @examples
 #' library(forrel)

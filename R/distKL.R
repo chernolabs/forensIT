@@ -4,14 +4,14 @@
 #' @param frequency Allele frequency database.
 #' @param relative Selected relative.
 #' @param numsims Number of simulated genotypes.
+#' @param missing Missing person
 #' @param cores Enables parallelization.
 #' @param frequency Allele frequency database.
 #' @return An object of class data.frame with KLs.
 #' @export
-#' @import pedprobr
+#' @importFrom pedprobr oneMarkerDistribution
 #' @import forrel
-#' @import mispitools
-#' @import dplyr
+#' @importFrom mispitools getfreqs
 #'
 #' @examples
 #' library(forrel)
@@ -24,7 +24,7 @@ distKL <- function(ped, missing, relative, frequency, numsims = 100, cores = 1) 
   peds = forrel::profileSim(ped, numsims, ids = relative, numCores = cores)
   out <- list()
   for (j in 1:length(peds)) {
-    dat <- perMarkerKLs(peds[[j]], frequency)
+    dat <- perMarkerKLs(peds[[j]], MP = missing, frequency)
     out1 <- c(sum(unlist(dat$KLpopped)), sum(unlist(dat$KLpedpop)))
     names(out1) <- c("KLpopped", "KLpedpop")
     out[[j]] <- out1
