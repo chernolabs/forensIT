@@ -1,6 +1,21 @@
-simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbose=TRUE,bJustGetNumber=FALSE,bdbg=FALSE){
-  
-  # LangeGoradia para ve cuantos genotipos posibles
+#' @title simMinimalEnsemble
+#' @description simMinimalEnsemble
+#' @param ped pedigree
+#' @param QP QP
+#' @param testID test ID
+#' @param freqs frequencies
+#' @param numCores number of cores
+#' @param seed seed
+#' @param bVerbose boolean to print information
+#' @param bJustGetNumber boolean to just get the number of runs
+#' @param bdbg boolean to debug
+#' @importFrom foreach foreach
+#' @importFrom foreach %dopar%
+#' @importFrom doParallel registerDoParallel
+#' @import fbnet
+#' @return list of results
+#' @export
+simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbose=TRUE,bJustGetNumber=FALSE,bdbg=FALSE){ #nolint
   lLangeGoradia <- list()
   numGeno<-c()
   markerNames <- unlist(lapply(ped$MARKERS,function(x){attr(x,'name')}))
@@ -37,7 +52,7 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
   rownames(numGeno) <- markerNames
   
   nruns <- apply(numGeno,2,max)
-  if(bVerbose | bJustGetNumber){
+  if(bVerbose | bJustGetNumber){ #nolint
     cat(paste('ID:',testID,'Number of fbnet runs:',nruns,'  (',rownames(numGeno)[which.max(numGeno[,1])],')\n'))
     cat('\nGenotypes per marker to explore:\n')
     print(numGeno)
@@ -54,7 +69,7 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
   for(ip in seq_along(maxNumGenotypes)){
     maux <- matrix(NA,ncol=maxNumGenotypes[ip],nrow=length(lLangeGoradia))
     rownames(maux) <- names(lLangeGoradia)
-    for(i in 1:nrow(maux)){
+    for(i in 1:nrow(maux)){ #nolint
       jmax  <- numGeno[i,ip]
       x     <- lLangeGoradia[[i]][[ip]]
       maux[i,] <- c(x,rep(x[jmax],ncol(maux)-jmax))  
@@ -81,7 +96,7 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
     if(bdbg) cat('', file=paste0("mylog.",inew,".txt"), append=FALSE)
     if(numCores==1){
       #set genotype for i-newopeople  
-      for(irun in 1:ncol(lMatrixGenotype[[inew]])){
+      for(irun in 1:ncol(lMatrixGenotype[[inew]])){ #nolint
         cat(paste0('\n contributor: ',inew,'/',length(testID),' - ',irun,'/',nruns[inew],' runs.\n'))
         genos <- lMatrixGenotype[[inew]][,irun]
         #cargo genotipos en markerdata
@@ -97,14 +112,14 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
         pednew$available <- sort(c(pednew$available,as.numeric(testID[inew])))
         
         ped_fbnet <- convertPed(pednew)
-        pbn  <- initBN(ped_fbnet)
-        bnet <- buildBN(pbn,QP=QP)
-        bn1  <- buildCPTs(bnet) 
-        resQ <- velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
-        lprobG0[[as.character(testID[inew])]][[paste0('sample_',irun)]] <- genotypeProbTable_FM(resQ,freq = freqs)[[1]]
+        pbn  <- fbnet::initBN(ped_fbnet)
+        bnet <- fbnet::buildBN(pbn,QP=QP)
+        bn1  <- fbnet::buildCPTs(bnet) 
+        resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
+        lprobG0[[as.character(testID[inew])]][[paste0('sample_',irun)]] <- genotypeProbTable_FM(bn1,resQ,freq = freqs)[[1]]
       }
     }else{
-      a <- foreach(irun=1:ncol(lMatrixGenotype[[inew]]))%dopar%{
+      a <- foreach::foreach(irun=1:ncol(lMatrixGenotype[[inew]])) %dopar% { #nolint
         
         genos <- lMatrixGenotype[[inew]][,irun]
         #cargo genotipos en markerdata
@@ -119,14 +134,14 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
         }
         pednew$available <- sort(c(pednew$available,as.numeric(testID[inew])))
         
-        pped_fbnet <- convertPed(pednew)
-        ppbn  <- initBN(pped_fbnet)
-        pbnet <- buildBN(ppbn,QP=QP)
-        pbn1  <- buildCPTs(pbnet) 
-        presQ <- velim.bn(pbn1,ordMethod="min_fill",verbose=FALSE)
+        ped_fbnet <- convertPed(pednew)
+        pbn  <- fbnet::initBN(ped_fbnet)
+        bnet <- fbnet::buildBN(pbn,QP=QP)
+        bn1  <- fbnet::buildCPTs(bnet) 
+        resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
         
         
-        res <- genotypeProbTable_FM(presQ,freq=freqs)[[1]]
+        res <- genotypeProbTable_FM(bn1,resQ,freq=freqs)[[1]]
         if(FALSE) cat(res[[10]],file=paste0('run_',irun,'.csv'))
         if(bdbg)cat(irun,res[[10]][1,2],'\n',file=paste0("mylog.",inew,".txt"),append=TRUE)
         res
@@ -166,4 +181,3 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
   # ITtable: IT metrics data.drame
   return(list(lprobGenoMOI=lprobGenoMOI,lprobG=lprobG0,lMatrixGenotype=lMatrixGenotype,ITtable=ITtable))
 }
-

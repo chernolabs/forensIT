@@ -1,3 +1,11 @@
+#' @title Simulate testID markers
+#' @description Simulate testID markers
+#' @param ped pedigree
+#' @param testID test ID
+#' @param numSim number of simulations
+#' @param seed seed
+#' @return list of simulations
+#' @export
 simTestIDMarkers<-function(ped,testID,numSim=10,seed=123457){ 
   set.seed(seed)
   markerNames <- unlist(lapply(ped$MARKERS,function(x){attr(x,'name')}))
@@ -9,8 +17,7 @@ simTestIDMarkers<-function(ped,testID,numSim=10,seed=123457){
     #               available = testID[ipeople],verbose = FALSE,seed=seed))
     (a<-forrel::markerSim(ped,N=numSim,partialmarker=imarker,ids = testID[ipeople],verbose = FALSE))
     laux <- lapply(a$MARKERS,function(x){
-      xx<-attr(x,'alleles')[as.vector(t(x[testID,]))]})
-    #xx<-attr(x,'alleles')[x[testID[ipeople],]]})
+      xx<-attr(x,'alleles')[as.vector(t(x[testID,]))]}) #nolint
     
     laux <- lapply(laux,function(x){
       ma <-apply(matrix(x,byrow=TRUE,nrow=length(ipeople)),1,function(y){
@@ -24,10 +31,6 @@ simTestIDMarkers<-function(ped,testID,numSim=10,seed=123457){
   return(lsimulation)
 }
 if(FALSE){
-  # (6.2) Reconstrucciuon de distribuciones IT para simulacion 
-  # Funcion para obtener on-the-fly los IT values del marcador 'marker' 
-  # del ensemble de simulaciones corridas para los posibles genotipos
-  # del nuevo contribuyente 'cdi'
   getMarkerITsimValues <-function(marker,cdi,lsimu=lsimulation,
                                   ITtab=ITtable,newp=testID){
     if(is.character(marker)){

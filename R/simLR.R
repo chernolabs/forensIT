@@ -1,3 +1,15 @@
+#' @title Simulate LR
+#' @description Simulate LR
+#' @param lprobg_ped list of probability distributions
+#' @param numSim number of simulations
+#' @param epsilon small number to avoid log(0)
+#' @param bplot boolean to plot
+#' @param bLRs boolean to return LRs
+#' @param seed seed
+#' @importFrom reshape2 melt
+#' @return LRs
+#' @export
+
 simLR <- function(lprobg_ped,numSim=10000,epsilon=1e-20,bplot=FALSE,bLRs=FALSE,seed=123457){
 
   if(!is.null(seed)) set.seed(seed)
@@ -60,8 +72,6 @@ simLR <- function(lprobg_ped,numSim=10000,epsilon=1e-20,bplot=FALSE,bLRs=FALSE,s
       
       h<-hist(h0)
       fp<-findPeaksValleys(h$counts) 
-      #abline(v=h$mids[fp$peaks])
-      #abline(v=h$mids[fp$valleys],col=2)
       nx <- c()
       for(i in seq_along(fp$valleys)){
         min <- ifelse(i==1,min(h0),h$mids[fp$valleys[i-1]])
@@ -72,8 +82,8 @@ simLR <- function(lprobg_ped,numSim=10000,epsilon=1e-20,bplot=FALSE,bLRs=FALSE,s
       nx <- paste(nx,collapse=":")
     }
   }
-  
-  reslong <- melt(res)
+  value <- Var2 <- NULL
+  reslong <- reshape2::melt(res)
   if(bplot){
     p <- ggplot(reslong,aes(x=value,col=Var2)) +
       geom_density() +
@@ -92,6 +102,4 @@ simLR <- function(lprobg_ped,numSim=10000,epsilon=1e-20,bplot=FALSE,bLRs=FALSE,s
       return(list(metrics=c(tp=ptp,fp=pfp,tn=ptn,fn=pfn,mcc=mcc,f1=f1),nH0peaks=nx,muH0peaks=mux))
     }
   }
-  
-  
 }

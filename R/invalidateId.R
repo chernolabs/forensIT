@@ -1,14 +1,19 @@
-InvalidateId<-function(ped,id=NULL,markerId=1,double=FALSE,propagate=FALSE){
+#' @title invalidateId
+#' @description Invalidate an individual
+#' @param ped pedigree
+#' @param id individual's id
+#' @param markerId marker's id
+#' @param double if TRUE, invalidate both alleles
+#' @param propagate if TRUE, propagate the invalidation to descendants
+#' @importFrom paramlink modifyMarker
+#' @return pedigree with invalidated individual
+#' @export
+InvalidateId <- function(ped,id=NULL,markerId=1,double=FALSE,propagate=FALSE){ #nolint
  if(is.null(id)) warning("se debe especificar id de individuo a mutar\n")
- 
-  
-  # paso a variables internas...(orig ids)
   iid <- which(ped$orig.ids==id)
-  
   parentIds     <- ped$pedigree[iid,c("FID","MID")]
   parentAlleles <- ped$markerdata[[markerId]][parentIds,]
   parentAlleles <- unique(as.vector(parentAlleles))
-  
   u <- (1:attr(ped$markerdata[[markerId]],"nalleles"))
   u <- u[!u %in% parentAlleles]
   if(!double){
@@ -16,15 +21,11 @@ InvalidateId<-function(ped,id=NULL,markerId=1,double=FALSE,propagate=FALSE){
   }else{
    ped$markerdata[[markerId]][iid,]<-sample(u,2)
   }
- 
-  #propago el nuevo valor aguas abajo
   if(propagate){
     df      <- as.data.frame(ped)[,1:5]
     descIds <- df[which(df$FID==id | df$MID==id),"ID"]
-          
-    #simulo la rama que cambia
-    a<-branch(ped,id)
-    a<-modifyMarker(a,markerId,descIds,c(0,0))
+    a<-pedtools::branch(ped,id)
+    a<-paramlink::modifyMarker(a,markerId,descIds,c(0,0))
     a<-markerSim(a,available=descIds,N=1,partialmarker=markerId)
     
     adf <- as.data.frame(a)

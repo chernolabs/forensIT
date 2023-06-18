@@ -1,3 +1,13 @@
+#' @title Eliminate Mendelian errors using Lange-Goradia algorithm
+#' @description Eliminate Mendelian errors using Lange-Goradia algorithm
+#' @param ped pedigree
+#' @param iMarker index of marker to be used
+#' @param bitera iterate until no more errors are found
+#' @param bverbose print progress
+#' @return pedigree with Mendelian errors eliminated
+#' @export
+#' @importFrom gtools combinations
+#' @export
 elimLangeGoradia<-function(ped,iMarker=1,bitera=TRUE,bverbose=TRUE){
   
   if(!is.null(ped$MARKERS)){
@@ -28,7 +38,7 @@ elimLangeGoradia<-function(ped,iMarker=1,bitera=TRUE,bverbose=TRUE){
   
   #posibles genotipos a partir de los alelos del pedigree
   #gtypes  <-apply(combinations(length(alleles),2,alleles,repeats.allowed=TRUE),1,paste,collapse="/")
-  gtypes  <-apply(combinations(length(alleles),2,alleles,repeats.allowed=TRUE),1,function(x){
+  gtypes  <-apply(combinations(length(alleles),2,alleles,repeats.allowed=TRUE),1,function(x){ #nolint
     paste(sort(x),collapse="/")})
   
   #identifico nuclear families
@@ -44,7 +54,7 @@ elimLangeGoradia<-function(ped,iMarker=1,bitera=TRUE,bverbose=TRUE){
   }
   parents = unique(pped[, 2:3])
   parents = parents[-match(0, parents[, 1]), , drop = FALSE]
-  subnucs = lapply(nrow(parents):1, function(i) {
+  subnucs = lapply(nrow(parents):1, function(i) { #nolint
     par = parents[i, ]
     c(fa = par[[1]], mo = par[[2]], 
       offs = as.vector(pped[,1])[which(pped[, 2] == par[[1]] & pped[, 3] == par[[2]], 
@@ -86,7 +96,7 @@ elimLangeGoradia<-function(ped,iMarker=1,bitera=TRUE,bverbose=TRUE){
     nitera<-nitera+1
     if(bverbose)cat(paste("itera:", nitera),"\n")
     bchanged<-FALSE
-    bchanged1 <- bchanged2 <- bchanged3 <- FALSE   
+    bchanged1 <- bchanged2 <- bchanged3 <- FALSE #nolint
     for (isub in seq_along(subnucs)){
       lin2<-vector("list",nInd) 
       names(lin2)<-1:nInd
@@ -174,4 +184,3 @@ elimLangeGoradia<-function(ped,iMarker=1,bitera=TRUE,bverbose=TRUE){
   
   return(lgeno)
 }           
-

@@ -1,3 +1,9 @@
+#' @title Genotype probabilities
+#' @description Calculate genotype probabilities from parental probabilities
+#' @param probP vector of parental probabilities
+#' @param probM vector of parental probabilities
+#' @return matrix of genotype probabilities
+#' @export
 genotypeProbs <- function(probP,probM){
   a<-outer(probP,probM)
   #hago la matriz cuadrada si no lo es

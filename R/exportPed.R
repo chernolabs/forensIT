@@ -1,3 +1,10 @@
+#' @title Export a pedigree to a file
+#' @description Export a pedigree to a file
+#' @param ped pedigree
+#' @param fname file name
+#' @param iMarker index of marker to be used
+#' @return pedigree with Mendelian errors eliminated
+#' @export
 exportPed<-function(ped,fname,iMarker=1){
  a <- ped$pedigree
  b<-c()

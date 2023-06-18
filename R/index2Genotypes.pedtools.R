@@ -1,3 +1,11 @@
+#' @title index2Genotypes
+#' @description index2Genotypes
+#' @param ped pedigree
+#' @param id individual id
+#' @param iMarker marker index
+#' @param alleleSet allele set
+#' @return genotypes
+#' @export
 index2Genotypes2.pedtools<-function(ped,id,iMarker,alleleSet){
   origAlleles <- attr(ped$MARKERS[[iMarker]],"alleles")
   al          <- ped$MARKERS[[iMarker]][id,]

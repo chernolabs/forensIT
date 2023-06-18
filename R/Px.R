@@ -1,3 +1,10 @@
+#' @title Px
+#' @description Px
+#' @param p1 probability distribution
+#' @param p0 probability distribution
+#' @param dbg boolean to compute sigma
+#' @return Px
+#' @export
 Px<-function(p1,p0,dbg=FALSE){
   px1 <- minusHp <- NA
   i0 <- which(p1==0)
@@ -5,8 +12,7 @@ Px<-function(p1,p0,dbg=FALSE){
     p  <- p0[i0]
     px1 <- minusHp <- 0
     for(i in seq_along(p)){
-#      accum1 <- accum1 + p[i] * prod(1-p[-i])
-      minusHp <- accum1 + p[i]*log10(p[i])
+      minusHp <- p$accum1 + p[i]*log10(p[i]) 
       px1     <- px1 + p[i] 
     }
   }

@@ -1,3 +1,11 @@
+#' @title KL divergence
+#' @description KL divergence
+#' @param ppx probability distribution
+#' @param ppy probability distribution
+#' @param epsilon small number to avoid log(0)
+#' @param bsigma boolean to compute sigma
+#' @return KL divergence
+#' @export
 KLd <- function(ppx,ppy,epsilon=1e-20,bsigma=FALSE){
   if(sum(ppx==0)>0){
     ppx[ppx==0] <- epsilon

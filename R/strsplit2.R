@@ -1,3 +1,9 @@
+#' @title strsplit2
+#' @description strsplit2
+#' @param x character vector
+#' @param split character
+#' @return matrix
+#' @export
 strsplit2<-function (x, split, ...) 
 {
   x <- as.character(x)

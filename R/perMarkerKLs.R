@@ -1,6 +1,7 @@
-#' perMarkerKLs: Obtain KL per maker for a specific pedigree
+#' @title perMarkerKLs
+#' @description perMarkerKLs
 #'
-#' @param ped Reference pedigree. It could be an input from read_fam() function or a pedigree built with pedtools.
+#' @param ped Reference pedigree.
 #' @param frequency Allele frequency database.
 #' @param MP missing person
 #' @return An object of class data.frame with KLs.
@@ -25,11 +26,9 @@ perMarkerKLs <- function(ped, MP, frequency) {
 KLpedpop <- list()
 KLpopped <- list()
 
-for (i in 1:length(ped$MARKERS)) {
+Allele2 <- Allele1 <- Genotype <- NULL
 
-#i = 3
-#ped <- x
-#frequency <- NorwegianFrequencies
+for (i in 1:length(ped$MARKERS)) { #nolint
 df <- as.data.frame(pedprobr::oneMarkerDistribution(ped, MP,i))
 names(df) <- "CPT"
 df <- df %>% rownames_to_column(var = "Genotype")

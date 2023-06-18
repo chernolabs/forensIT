@@ -6,19 +6,12 @@
 #' @import ggplot2
 #' @importFrom dplyr mutate
 #' @importFrom tidyr gather
-#'
-#' @examples
-#' library(forrel)
-#' x = linearPed(2)
-#' plot(x)
-#' x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:5])
-#' x = profileSim(x, N = 1, ids = 2)
-#' res <- distKL(ped = x, missing = 5, relative = 1, cores = 10, frequency = NorwegianFrequencies[1:5], numsims = 5)
-#' unidimKLplot(res)
+#' @importFrom hrbrthemes theme_ipsum
 unidimKLplot <- function(res) {
-res2 <- mutate(res, KLpopped = - KLpopped)
+res2 <- mutate(res, KLpopped = - res$KLpopped)
 res2 <- gather(res2)
 res2
-ggplot(data=res2, aes(x=value, group=key, fill=key)) +
+value <- key <- NULL
+ggplot(data=res2, aes(x= value, group= key, fill= key)) +
   geom_density(adjust=1.5, alpha=.4) +
-  theme_ipsum()}
+  hrbrthemes::theme_ipsum()}
