@@ -3,5 +3,5 @@
 #'
 #' @docType package
 #'
-#' @name fbnet
+#' @name forensIT
 NULL
