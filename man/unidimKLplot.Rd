@@ -15,12 +15,3 @@ A scatterplot.
 \description{
 unidimKLplot: KL distributions presented in the same units (Log10(LR))
 }
-\examples{
-library(forrel)
-x = linearPed(2)
-plot(x)
-x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:5])
-x = profileSim(x, N = 1, ids = 2)
-res <- distKL(ped = x, missing = 5, relative = 1, cores = 10, frequency = NorwegianFrequencies[1:5], numsims = 5)
-unidimKLplot(res)
-}

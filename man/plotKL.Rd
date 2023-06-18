@@ -2,7 +2,7 @@
 % Please edit documentation in R/plotKL.R
 \name{plotKL}
 \alias{plotKL}
-\title{plotKL: scatter plot of obtained KL values from distKL}
+\title{Plot KL distances.}
 \usage{
 plotKL(res)
 }
@@ -13,7 +13,7 @@ plotKL(res)
 A scatterplot.
 }
 \description{
-plotKL: scatter plot of obtained KL values from distKL
+Plot KL distances.
 }
 \examples{
 library(forrel)
@@ -21,6 +21,7 @@ x = linearPed(2)
 plot(x)
 x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:5])
 x = profileSim(x, N = 1, ids = 2)
-res <- distKL(ped = x, missing = 5, relative = 1, cores = 10, frequency = NorwegianFrequencies[1:5], numsims = 5)
+res <- distKL(ped = x, missing = 5, relative = 1,
+cores = 1, frequency = NorwegianFrequencies[1:5], numsims = 5)
 plotKL(res)
 }

@@ -7,7 +7,9 @@
 distKL(ped, missing, relative, frequency, numsims = 100, cores = 1)
 }
 \arguments{
-\item{ped}{Reference pedigree. It could be an input from read_fam() function or a pedigree built with pedtools.}
+\item{ped}{Reference pedigree. It could be an input from read_fam() function or a pedigree built with pedtools. # nolint}
+
+\item{missing}{Missing person}
 
 \item{relative}{Selected relative.}
 
@@ -27,7 +29,8 @@ distKL: KL distribution obtained for specific relative contributor
 library(forrel)
 x = linearPed(2)
 plot(x)
-x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:5])
+x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:2])
 x = profileSim(x, N = 1, ids = 2)
-distKL(ped = x, missing = 5, relative = 1, cores = 10, frequency = NorwegianFrequencies[1:5], numsims = 5)
+distKL(ped = x, missing = 5, relative = 1, cores = 1,
+frequency = NorwegianFrequencies[1:2], numsims = 3)
 }

@@ -2,12 +2,14 @@
 % Please edit documentation in R/perMarkerKLs.R
 \name{perMarkerKLs}
 \alias{perMarkerKLs}
-\title{perMarkerKLs: Obtain KL per maker for a specific pedigree}
+\title{perMarkerKLs}
 \usage{
-perMarkerKLs(ped, frequency)
+perMarkerKLs(ped, MP, frequency)
 }
 \arguments{
-\item{ped}{Reference pedigree. It could be an input from read_fam() function or a pedigree built with pedtools.}
+\item{ped}{Reference pedigree.}
+
+\item{MP}{missing person}
 
 \item{frequency}{Allele frequency database.}
 }
@@ -15,7 +17,7 @@ perMarkerKLs(ped, frequency)
 An object of class data.frame with KLs.
 }
 \description{
-perMarkerKLs: Obtain KL per maker for a specific pedigree
+perMarkerKLs
 }
 \examples{
 library(forrel)
@@ -23,5 +25,5 @@ x = linearPed(2)
 plot(x)
 x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:5])
 x = profileSim(x, N = 1, ids = 2)
-perMarkerKLs(x,  NorwegianFrequencies[1:5])
+perMarkerKLs(x, MP = 5 , NorwegianFrequencies[1:5])
 }
