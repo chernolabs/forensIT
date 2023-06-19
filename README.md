@@ -278,6 +278,8 @@ plotKL(res)
 ``` 
 ![](distKL.png)<!-- -->
 
+Note that lower results are obtained, compared with the first example. Indeed, in this case only the grandfather is genotyped, in the other case, the grandmother and the uncle are genotyped.
+
 KL distributions presented in the same units (Log10(LR)). Note that this implies plotting -KL(pop to ped)
 ``` r
 unidimKLplot(res)
