@@ -33,4 +33,5 @@ Imports:
     reshape2,
     iterators,
     doParallel,
-    paramlink
+    paramlink,
+    doSNOW
