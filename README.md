@@ -4,38 +4,28 @@ The 'forensIT' package is a comprehensive statistical toolkit tailored for handl
 By leveraging information theory metrics, it enables accurate assessment of kinship, particularly when limited genetic evidence is available. 
 With a focus on optimizing statistical power, 'forensIT' empowers investigators to effectively prioritize family members, enhancing the reliability and efficiency of missing person investigations. 
 
-If you want to install forensicIT, please use:
+Please, enter the following commands on R:
 
 ``` r
-install.packages("devtools")
+install.packages("forensIT")
+install.packages("devtoos")
 library(devtools)
-install_github("chernolabs/forensIT")
-library(forensIT)
+install_version("fbnet", "1.0.1")
 ```
+First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package development. Following that, the "devtools" package is loaded into the R session using the library() function. Lastly, the "fbnet" package is installed at version "1.0.1" using the install_version() function from "devtools". These steps ensure that the necessary packages are installed and available for use in the project.
 
-Using other packages
+The following packages should be installed automatically, but in order to avoid bugs, the depencies could be called as follows:
+
 ``` r
 library(forrel)
 library(mispitools)
-library(dplyr)
+library(tidyverse)
 library(ggplot2)
-library(tidyr)
 library(pedprobr)
 ```
-Describe your issue very briefly here. Then show it with a minimal, self-contained example in the following R chunk.
 
-``` r
-#install.packages("forensIT")
-#install.packages("devtoos")
-#library(devtools)
-#install_version("fbnet", "1.0.1")
-```
+First, a random seed value of 123457 is set using the line seed <- 123457. This ensures reproducibility of random processes in the following code. Next, the variable freqs is assigned the result of applying the getfreqs() function to the "Argentina" dataset and selecting the first 15 elements. The lapply() function is used to apply a custom function to each element of the resulting list, filtering out values that are not equal to zero. The variable pedName is assigned the value 'ped5Ensemble', specifying the name of the pedigree. Then, the variable fam is created as a linear pedigree with 2 founders using the linearPed() function. Additional individuals are added to the pedigree using the addChildren() function, specifying the father as 1 and the mother as 2. The setMarkers() function from the pedtools package is used to assign locus attributes to the pedigree, with the frequencies specified by the freqs variable. A simulated profile is generated using the profileSim() function, specifying the pedigree fam, generating 1 sample (N = 1), selecting individual ID 6, using 1 core for computation, and using the previously set random seed. The variable QP is assigned the value 5, representing the Query person. Finally, a plot of the pedigree is generated using the plot() function, displaying markers 1 and 2, with hatching indicating typed members in the pedigree. This code segment sets up a simulation and visualization of a pedigree with marker information and quantitative phenotypes.
 
-``` r
-library(pedtools)
-library(mispitools)
-
-```
 
 ``` r
 seed <- 123457
@@ -49,13 +39,12 @@ QP   <- 5
 plot(ped,marker=1:2, hatched = typedMembers(ped))
 ```
 
-![](https://i.imgur.com/EKvtQF0.png)<!-- -->
+![](ped1.png)<!-- -->
+
+In the next code segment, the variable testIDs is assigned the value 2, representing the test individual(s) in the simulation. The variable numSim is set to 100, indicating the number of simulations to perform. The variable numCores is assigned the value 2, specifying the number of cores to be used for computation. The simMinimalEnsemble() function is then called with the following parameters: ped (the pedigree), QP (the query person), testIDs (possible individuals to incorpore), freqs (the locus frequencies), and numCores. This function performs simulations of minimal ensembles of genotypes and returns the results in the variable simME.
 
 ``` r
 testIDs <- 2
-```
-
-``` r
 numSim <- 100
 numCores <- 2
 simME <- simMinimalEnsemble(ped,QP,testIDs,freqs=freqs,numCores=numCores)
@@ -81,6 +70,7 @@ simME <- simMinimalEnsemble(ped,QP,testIDs,freqs=freqs,numCores=numCores)
 #> running testID: 2
 ```
 
+head(simME[["lMatrixGenotype"]][[1]]) retrieves the first element of the "lMatrixGenotype" list within the "simME" object and displays the first few rows of the retrieved data.
 
 ``` r
 head(simME[["lMatrixGenotype"]][[1]])
@@ -98,11 +88,21 @@ head(simME[["ITtable"]][["KL_bnet.pop"]])
 #> [1] 0.05770006 0.04169475 0.04587450 0.55561772 0.40356996 0.30196013
 ```
 
+
+The code segment begins by defining the variable lsimEnsemble using the function simTestIDMarkers(). This function performs simulations of marker genotypes for the specified test individual(s) (testIDs) using the provided pedigree (ped). The number of simulations is determined by the numSim parameter, and the random seed is set to the previously defined seed value.
+
+The next line of code calculates the IT (information theory) values for the simulated ensemble using the function buildEnsembleITValues(). It takes the lsimu (simulated ensemble) and ITtab (IT table) as inputs. The bFullIT parameter is set to TRUE, indicating that the full IT values should be calculated.
+
+Lastly, the code uses the function buildEnsembleCPTs() to construct the conditional probability tables (CPTs) for the simulated ensemble. It takes the lsimu (simulated ensemble) and lminimalProbGenoMOI (minimal probability of genotypes given modes of inheritance) from the simME object as inputs.
+
 ``` r
 lsimEnsemble  <- simTestIDMarkers(ped,testIDs,numSim=numSim,seed=seed)
 lensembleIT   <- buildEnsembleITValues(lsimu=lsimEnsemble,ITtab=simME$ITtable,bFullIT = TRUE)
 lensembleCPTs <- buildEnsembleCPTs(lsimu=lsimEnsemble,lminimalProbGenoMOI=simME$lprobGenoMOI)
 ```
+
+
+head(lensembleCPTs[["2"]][["sample_1"]][["D8S1179"]]) retrieves the conditional probability table (CPT) for the marker "D8S1179" in the simulated ensemble. It specifically accesses the CPT for "sample_1" of the test individual with ID 2.
 
 ``` r
 head(lensembleCPTs[["2"]][["sample_1"]][["D8S1179"]])
@@ -114,6 +114,14 @@ head(lensembleCPTs[["2"]][["sample_1"]][["D8S1179"]])
 #> 10/14 10/14 0.030561158 0.059180290 6.506495e-04
 #> 10/15 10/15 0.018873261 0.004718315 5.187486e-05
 ```
+
+The following code starts setting numSimLR to 1000, indicating the number of simulations to be performed for the likelihood ratio (LR) calculations.
+
+A nested loop is then used to iterate over the elements of lensembleCPTs. The outer loop iterates over the IDs (iid) of the simulated ensembles, while the inner loop iterates over the samples (i) within each ensemble.
+
+Within the inner loop, the conditional probability table (lprob) is retrieved from lensembleCPTs for the corresponding ensemble and sample. The simLR() function is then called with the lprob as input, along with the specified number of simulations (numSimLR) and the bplot parameter set to TRUE to enable plotting of the LR results.
+
+The LR obtained from each simulation are stored in the mlr variable using the rbind() function, appending the results for each sample within an ensemble.
 
 ``` r
 numSimLR <- 1000
@@ -127,6 +135,14 @@ for(iid in seq_along(lensembleCPTs)){
 }
 ```
 
+In the provided code segment, the variable id is defined as a character vector containing the ID '2', and the variable sample is set to 1, indicating the specific sample of interest. The sample represent a specific MP's relative genotype. For that genotype, LR distributions could be computed.
+
+Next, the conditional probability table (lprobG) is extracted from the lensembleCPTs object, using the id and sample variables to access the corresponding elements.
+
+Then, the simLR() function is called with the lprobg_ped parameter set to lprobG, indicating the conditional probability table for the sample of interest. The numSim parameter is set to 10,000, specifying the number of simulations to perform. Additionally, the bplot parameter is set to TRUE, enabling the plotting of LR results.
+
+The output of this function call is assigned to the averLR variable, which contains the average LR metrics calculated from the simulations.
+
 ``` r
 id     <- c('2')
 sample <- 1
@@ -138,7 +154,10 @@ averLR    <- simLR(lprobg_ped = lprobG,numSim = 10000,bplot = TRUE)
 averLR$fig
 ```
 
-![](https://i.imgur.com/qQqejQh.png)<!-- -->
+![](distLR.png)<!-- -->
+
+
+Also, performance metrics could be obtained for this specific genotype.
 
 ``` r
 averLR$metrics
@@ -147,6 +166,9 @@ averLR$metrics
 #>                 mcc                  f1            nH0peaks           muH0peaks 
 #> "0.863616598870547" "0.932010766623467"             "10000"             "-1.99"
 ```
+
+
+Overall, the following code  organizes the KL (Kullback-Leibler) divergence values obtained from the lensembleIT object into a data frame and displays the first few rows of the resulting data frame.
 
 ``` r
 data <- as.data.frame(cbind(lensembleIT[["ensembleIT"]][["KL_bnet.pop"]], lensembleIT[["ensembleIT"]][["KL_pop.bnet"]]))
@@ -160,6 +182,8 @@ head(data)
 #> 5  2.072932  2.344730
 #> 6  1.801063  2.031608
 ```
+
+The following step creates a scatter plot using the "KLbnetpop" and "KLpopbnet" columns from the data data frame, where the points are colored based on the "id" column. The x-axis and y-axis labels are specified, and the resulting plot is shown. There are 100 data points, representing KL values for each specific genotype.
 
 ``` r
 p1 <- ggplot(data,aes(y=KLpopbnet,x=KLbnetpop,col=id)) +
