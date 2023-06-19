@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^uniKL.png$
+^Ped.png$
+^distKL.png$
+^LICENSE\.md$
+^README.Rmd
+^LICENSE
+^distLR.png$
+^ped1.png$
+^KL.png$
