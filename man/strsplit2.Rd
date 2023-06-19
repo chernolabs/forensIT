@@ -4,7 +4,7 @@
 \alias{strsplit2}
 \title{strsplit2}
 \usage{
-strsplit2(x, split, ...)
+strsplit2(x, split)
 }
 \arguments{
 \item{x}{character vector}
