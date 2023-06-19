@@ -60,6 +60,9 @@ plot(ped,marker=1:2, hatched = typedMembers(ped))
 
 ![](ped1.png)<!-- -->
 
+# Obtaining the minimal genotype ensemble
+
+
 In the following code segment, several variables are defined and a simulation of minimal ensembles of genotypes is performed.
 
 The variable testIDs is assigned the value 2, representing the test individual(s) that will be included in the simulation.
@@ -117,7 +120,7 @@ head(simME[["lMatrixGenotype"]][[1]])
 head(simME[["ITtable"]][["KL_bnet.pop"]])
 #> [1] 0.05770006 0.04169475 0.04587450 0.55561772 0.40356996 0.30196013
 ```
-
+# Calculating IT metrics
 
 The code segment begins by defining the variable lsimEnsemble using the function simTestIDMarkers(). This function performs simulations of marker genotypes for the specified test individual(s) (testIDs) using the provided pedigree (ped). The number of simulations is determined by the numSim parameter, and the random seed is set to the previously defined seed value.
 
@@ -144,6 +147,9 @@ head(lensembleCPTs[["2"]][["sample_1"]][["D8S1179"]])
 #> 10/14 10/14 0.030561158 0.059180290 6.506495e-04
 #> 10/15 10/15 0.018873261 0.004718315 5.187486e-05
 ```
+
+# LR distribution and performance
+
 
 The following code starts setting numSimLR to 1000, indicating the number of simulations to be performed for the likelihood ratio (LR) calculations.
 
@@ -198,7 +204,11 @@ averLR$metrics
 ```
 
 
+
+# KL-KL plot
+
 Overall, the following code  organizes the KL (Kullback-Leibler) divergence values obtained from the lensembleIT object into a data frame and displays the first few rows of the resulting data frame.
+
 
 ``` r
 data <- as.data.frame(cbind(lensembleIT[["ensembleIT"]][["KL_bnet.pop"]], lensembleIT[["ensembleIT"]][["KL_pop.bnet"]]))
