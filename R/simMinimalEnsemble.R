@@ -12,17 +12,15 @@
 #' @importFrom foreach foreach
 #' @importFrom foreach %dopar%
 #' @importFrom doParallel registerDoParallel
-#' @import fbnet
+#' @importFrom fbnet initBN buildCPTs buildBN 
 #' @return list of results
 #' @export
 simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbose=TRUE,bJustGetNumber=FALSE,bdbg=FALSE){ #nolint
   lLangeGoradia <- list()
   numGeno<-c()
   markerNames <- unlist(lapply(ped$MARKERS,function(x){attr(x,'name')}))
-  
   for(imarker in seq_along(markerNames)){
     alleles <- attr(ped$MARKERS[[imarker]],'alleles')
-    
     a<-elimLangeGoradia(ped,iMarker=imarker,bitera=TRUE,bverbose = FALSE)[testID]
     #desarmo el alelo 666
     a<-lapply(a,function(x){
@@ -44,13 +42,10 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
       }
       return(unique(apply(ma,1,paste,collapse='/')))
     })
-    
-    
     lLangeGoradia[[markerNames[imarker]]]<-a
     numGeno <- rbind(numGeno,unlist(lapply(a,length)))
   }
   rownames(numGeno) <- markerNames
-  
   nruns <- apply(numGeno,2,max)
   if(bVerbose | bJustGetNumber){ #nolint
     cat(paste('ID:',testID,'Number of fbnet runs:',nruns,'  (',rownames(numGeno)[which.max(numGeno[,1])],')\n'))
@@ -60,10 +55,6 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
   if(bJustGetNumber){
     return()
   }
-  
-  
-  
-  # convierto la lista de LangeGoradia a matriz de genotipos para correr
   maxNumGenotypes <- apply(numGeno,2,max)
   lMatrixGenotype <- list()
   for(ip in seq_along(maxNumGenotypes)){
@@ -77,22 +68,14 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
     lMatrixGenotype[[ip]] <- maux
   }
   dim(lMatrixGenotype[[1]])
-  
-  
-  
-  # calculo de probs para diferentes genotipos 
-  
   if(numCores>1){
-    library(doParallel)
-    registerDoParallel(cores=numCores)
+    doParallel::registerDoParallel(cores=numCores)
   }
-  
   lprobG0 <- list()
   for(inew in seq_along(testID)){
     cat('running testID:',testID[inew],'\n')
     pednew <- ped
     lprobG0[[as.character(testID[inew])]] <- list()
-    
     if(bdbg) cat('', file=paste0("mylog.",inew,".txt"), append=FALSE)
     if(numCores==1){
       #set genotype for i-newopeople  
@@ -110,17 +93,15 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
           pednew$MARKERS[[imarker]] <-moi
         }
         pednew$available <- sort(c(pednew$available,as.numeric(testID[inew])))
-        
         ped_fbnet <- convertPed(pednew)
         pbn  <- fbnet::initBN(ped_fbnet)
         bnet <- fbnet::buildBN(pbn,QP=QP)
         bn1  <- fbnet::buildCPTs(bnet) 
         resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
-        lprobG0[[as.character(testID[inew])]][[paste0('sample_',irun)]] <- genotypeProbTable_FM(bn1,resQ,freq = freqs)[[1]]
+        lprobG0[[as.character(testID[inew])]][[paste0('sample_',irun)]] <- genotypeProbTable_bis(bn1,resQ,freq = freqs)[[1]]
       }
-    }else{
+    }else {
       a <- foreach::foreach(irun=1:ncol(lMatrixGenotype[[inew]])) %dopar% { #nolint
-        
         genos <- lMatrixGenotype[[inew]][,irun]
         #cargo genotipos en markerdata
         pedMarkers <- unlist(lapply(pednew$MARKERS,function(x){attr(x,'name')}))
@@ -133,15 +114,12 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
           pednew$MARKERS[[imarker]] <-moi
         }
         pednew$available <- sort(c(pednew$available,as.numeric(testID[inew])))
-        
         ped_fbnet <- convertPed(pednew)
         pbn  <- fbnet::initBN(ped_fbnet)
         bnet <- fbnet::buildBN(pbn,QP=QP)
         bn1  <- fbnet::buildCPTs(bnet) 
         resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
-        
-        
-        res <- genotypeProbTable_FM(bn1,resQ,freq=freqs)[[1]]
+        res <- genotypeProbTable_bis(bn1,resQ,freq=freqs)[[1]]
         if(FALSE) cat(res[[10]],file=paste0('run_',irun,'.csv'))
         if(bdbg)cat(irun,res[[10]][1,2],'\n',file=paste0("mylog.",inew,".txt"),append=TRUE)
         res
@@ -149,16 +127,12 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
       names(a)<-paste0('sample_',seq_along(a))
       lprobG0[[as.character(testID[inew])]]  <- a
     }
-    #close(pb)
   }
-  
-    # IT metrics   
     lprobGenoMOI <- list()
     ITtable<-c()
     for(iCDI in seq_along(lprobG0)){
       lprobGenoMOI[[iCDI]] <- list()
       for(moi in names(lprobG0[[1]][[1]])){
-        #solo recupero las primeras  numGeno[moi,iCDI] samples
         a<-lapply(lprobG0[[iCDI]][1:numGeno[moi,iCDI]],function(x){
           x[[moi]]
         })
@@ -170,14 +144,6 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
         ITtable <- rbind(ITtable,cbind(cdi=names(lprobG0)[iCDI],marker=moi,allele=rownames(compa),compa))
       }
     }
-    #saux <- names(lprobG0)
-    #saux <- unlist(lapply(strsplit(saux,'/'),function(y){paste(sort(as.numeric(y)),collapse='/')}))
     names(lprobGenoMOI)<-names(lprobG0)
-
-  
-  # lprobGenoMOI[ID][marker][genotype_realization]: data.frame with fbnet results
-  # lprobG[ID][sample][marker]: data.frame with fbnet results
-  # lMatrixGenotype[[ID]]: genotype dataframe
-  # ITtable: IT metrics data.drame
   return(list(lprobGenoMOI=lprobGenoMOI,lprobG=lprobG0,lMatrixGenotype=lMatrixGenotype,ITtable=ITtable))
 }

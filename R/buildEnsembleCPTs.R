@@ -4,7 +4,6 @@
 #' @param lminimalProbGenoMOI list of minimal probabilities of genotypes given MOI # nolint
 #' @return list of CPTs
 #' @export
-
 buildEnsembleCPTs <- function(lsimu, lminimalProbGenoMOI){ # nolint
   aa <- simplify2array(lsimu, higher = FALSE)
   aa <- data.frame(sample = 1:nrow(lsimu[[1]]),id=rep(colnames(lsimu[[1]]), # nolint

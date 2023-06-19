@@ -9,12 +9,9 @@
 simTestIDMarkers<-function(ped,testID,numSim=10,seed=123457){ 
   set.seed(seed)
   markerNames <- unlist(lapply(ped$MARKERS,function(x){attr(x,'name')}))
-  # .... lsimulation 
   ipeople <- seq_along(testID)#1:2
   lsimulation<-list()
   for(imarker in seq_along(markerNames)){
-    # (a<-markerSim(ped,N=numSim,partialmarker=imarker,
-    #               available = testID[ipeople],verbose = FALSE,seed=seed))
     (a<-forrel::markerSim(ped,N=numSim,partialmarker=imarker,ids = testID[ipeople],verbose = FALSE))
     laux <- lapply(a$MARKERS,function(x){
       xx<-attr(x,'alleles')[as.vector(t(x[testID,]))]}) #nolint

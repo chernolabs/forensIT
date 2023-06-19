@@ -7,6 +7,9 @@
 #' @param bLRs boolean to return LRs
 #' @param seed seed
 #' @importFrom reshape2 melt
+#' @importFrom graphics abline barplot layout legend par
+#' @importFrom stats aggregate ecdf
+#' @importFrom utils write.table
 #' @return LRs
 #' @export
 

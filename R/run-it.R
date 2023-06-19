@@ -11,19 +11,13 @@
 #' @param blog boolean to write log
 #' @importFrom foreach foreach
 #' @importFrom foreach %dopar%
+#' @import doSNOW 
 #' @importFrom doParallel registerDoParallel
+#' @importFrom fbnet initBN buildCPTs buildBN
 #' @import iterators
 #' @return runIT
 runIT <-function(lped=NULL,freqs,QP,dbg,numCores,bOnlyIT=FALSE,lprobg_ped=NULL,bsigma=FALSE,blog=FALSE){
   irun <- NULL
-  if(TRUE){
-    library(foreach)
-    library(doParallel)
-    registerDoParallel(cores=numCores)  
-  }else{
-    library(foreach)
-    library(doSNOW)
-  }
   if(bOnlyIT && is.null(lped)) warning('bOnlyIT is TRUE but lprobG is NULL.')
   if(blog) writeLines(c(""), "log.txt")
   t1 <- Sys.time()
@@ -33,19 +27,16 @@ runIT <-function(lped=NULL,freqs,QP,dbg,numCores,bOnlyIT=FALSE,lprobg_ped=NULL,b
       if(blog) cat(paste("Starting irun",irun,"\n"),file='log.txt',append=TRUE)
       ped_fbnet <- convertPed(lped[[irun]])
       pbn  <- fbnet::initBN(ped_fbnet)
-      bnet <- fnet::buildBN(pbn,QP=QP)
-      bn1  <- fnet::buildCPTs(bnet) 
-      resQ <- fnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
-      lprobG <- genotypeProbTable_FM(bn1,resQ, freq = freqs)
+      bnet <- fbnet::buildBN(pbn,QP=QP)
+      bn1  <- fbnet::buildCPTs(bnet) 
+      resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
+      lprobG <- genotypeProbTable_bis(bn1,resQ, freq = freqs)
       lprobG <- lprobG$lprobG
       bnet_pop  <- compareBnetPopGenoPDFs(lprobG)
       if(blog) cat(paste("Ending irun",irun,"\n"),file='log.txt',append=TRUE)
       
       list(info_out=bnet_pop,lprobG_out=lprobG)
     }
-    #sink(file=NULL)
-    #Rearreglo listas
-    # paso de [sample][info|probG][marker] a [info|probG][sample][marker]
     info_ped <- lprobg_ped <- list()
     for(isample in seq_along(a)){
       info_ped[[isample]]  <- a[[isample]][['info_out']]  

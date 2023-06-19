@@ -11,9 +11,6 @@ genotypeProbTable <- function(bbn1,resQQ,bplot=FALSE,numMarkers=4,lLoci){
   
   
   sysName<-unlist(lapply(strsplit(names(resQQ),"_",fixed=TRUE),function(x){return(x[2])}))
-  
-  
-  # (3.1) analizo diferencias entre probabilidades ALELICAS y GENOTIPICAS 
   lprobPconj <- lprobMconj <- lprobP <- lprobM <- lprobG<-list()
   if(bplot){
     par(mar=c(5,4,2,2))
@@ -23,8 +20,6 @@ genotypeProbTable <- function(bbn1,resQQ,bplot=FALSE,numMarkers=4,lLoci){
     
     iop<-match(resQQ[[i]][,1],lLoci[[sysName[i]]][,c("Alelo")])
     iom<-match(resQQ[[i+(length(resQQ)/2)]][,1],lLoci[[sysName[i]]][,c("Alelo")])
-    
-    # (3.1.1) probabilidades conjuntas P(G,E) y condicionales  P(G|E)
     pPopFreqP <- lLoci[[sysName[i]]][iop,]             # prob poblacional
     pBNetP    <- pBNetP1   <- resQQ[[i]];                  # pbNet1P1:prob conjunta
     pBNetP[,"prob"]<-pBNetP[,"prob"]/sum(pBNetP[,"prob"])  # prob condicional
@@ -32,14 +27,10 @@ genotypeProbTable <- function(bbn1,resQQ,bplot=FALSE,numMarkers=4,lLoci){
     pPopFreqM <- lLoci[[sysName[i]]][iom,]              # prob poblacional
     pBNetM    <- pBNetM1   <- resQQ[[i+(length(resQQ)/2)]]; # pbNet1M1:prob conjunta
     pBNetM[,"prob"]<-pBNetM[,"prob"]/sum(pBNetM[,"prob"])   # prob condicional
-    
-    # probabilidades condicionales
     pBNp<-cbind(bnetP=pBNetP[,"prob"],pop=pPopFreqP[,"freq"])
     pBNm<-cbind(bnetM=pBNetM[,"prob"],pop=pPopFreqM[,"freq"])
     rownames(pBNp)<-pPopFreqP[,"Alelo"]
     rownames(pBNm)<-pPopFreqM[,"Alelo"]
-    
-    #probabilidades conjuntas
     pBNp1<-cbind(bnetP=pBNetP1[,"prob"],pop=pPopFreqP[,"freq"])
     pBNm1<-cbind(bnetM=pBNetM1[,"prob"],pop=pPopFreqM[,"freq"])
     rownames(pBNp1)<-pPopFreqP[,"Alelo"]

@@ -6,6 +6,7 @@
 #' @return list of IT values
 #' @export
 buildEnsembleITValues <-function(lsimu = lsimulation,ITtab = sim$ITtable,bFullIT = FALSE){ # nolint
+  sim <- lsimulation <- NULL
   fullIT <- ensembleIT <- c() # nolint
   for(icdi in 1:ncol(lsimu[[1]])){ # nolint
     newp <- colnames(lsimu[[1]])[icdi]
