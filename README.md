@@ -24,7 +24,26 @@ library(ggplot2)
 library(pedprobr)
 ```
 
-First, a random seed value of 123457 is set using the line seed <- 123457. This ensures reproducibility of random processes in the following code. Next, the variable freqs is assigned the result of applying the getfreqs() function to the "Argentina" dataset and selecting the first 15 elements. The lapply() function is used to apply a custom function to each element of the resulting list, filtering out values that are not equal to zero. The variable pedName is assigned the value 'ped5Ensemble', specifying the name of the pedigree. Then, the variable fam is created as a linear pedigree with 2 founders using the linearPed() function. Additional individuals are added to the pedigree using the addChildren() function, specifying the father as 1 and the mother as 2. The setMarkers() function from the pedtools package is used to assign locus attributes to the pedigree, with the frequencies specified by the freqs variable. A simulated profile is generated using the profileSim() function, specifying the pedigree fam, generating 1 sample (N = 1), selecting individual ID 6, using 1 core for computation, and using the previously set random seed. The variable QP is assigned the value 5, representing the Query person. Finally, a plot of the pedigree is generated using the plot() function, displaying markers 1 and 2, with hatching indicating typed members in the pedigree. This code segment sets up a simulation and visualization of a pedigree with marker information and quantitative phenotypes.
+In the provided code segment, several steps are taken to set up a simulation and visualization of a pedigree with marker information and quantitative phenotypes.
+
+First, a random seed value of 123457 is set to ensure reproducibility of random processes in the code.
+
+Next, the variable freqs is assigned the first 15 elements of the result obtained by applying the getfreqs() function to the "Argentina" dataset. The lapply() function is used to filter out values that are not equal to zero.
+
+The variable pedName is set to 'ped5Ensemble', specifying the name of the pedigree.
+
+Then, a linear pedigree named fam is created with 2 founders using the linearPed() function.
+
+Additional individuals are added to the pedigree using the addChildren() function, specifying the father as 1 and the mother as 2.
+
+The setMarkers() function from the pedtools package is used to assign locus attributes to the pedigree, using the frequencies specified in the freqs variable.
+
+A simulated profile is generated using the profileSim() function, with the fam pedigree, generating 1 sample (N = 1), selecting individual ID 6, using 1 core for computation, and using the previously set random seed.
+
+The variable QP is assigned the value 5, representing the Query person.
+
+Finally, a plot of the pedigree is generated using the plot() function, displaying markers 1 and 2, with hatching indicating typed members in the pedigree.
+
 
 
 ``` r
@@ -41,7 +60,18 @@ plot(ped,marker=1:2, hatched = typedMembers(ped))
 
 ![](ped1.png)<!-- -->
 
-In the next code segment, the variable testIDs is assigned the value 2, representing the test individual(s) in the simulation. The variable numSim is set to 100, indicating the number of simulations to perform. The variable numCores is assigned the value 2, specifying the number of cores to be used for computation. The simMinimalEnsemble() function is then called with the following parameters: ped (the pedigree), QP (the query person), testIDs (possible individuals to incorpore), freqs (the locus frequencies), and numCores. This function performs simulations of minimal ensembles of genotypes and returns the results in the variable simME.
+In the following code segment, several variables are defined and a simulation of minimal ensembles of genotypes is performed.
+
+The variable testIDs is assigned the value 2, representing the test individual(s) that will be included in the simulation.
+
+The variable numSim is set to 100, indicating that 100 simulations will be performed.
+
+The variable numCores is assigned the value 2, specifying that two cores will be used for computation.
+
+The simMinimalEnsemble() function is then called with the parameters ped (the pedigree), QP (the query person), testIDs, freqs (the locus frequencies), and numCores. This function generates simulations of minimal ensembles of genotypes based on the provided pedigree and frequencies.
+
+The results of the simulation are stored in the variable simME, which can be further analyzed or used for subsequent calculations.
+
 
 ``` r
 testIDs <- 2
