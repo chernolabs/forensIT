@@ -12,7 +12,7 @@ install.packages("devtoos")
 library(devtools)
 install_version("fbnet", "1.0.1")
 ```
-First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for pedigree analysis. Following that, the "devtools" package is loaded into the R session using the library() function. Lastly, the "fbnet" package is installed at version "1.0.1" using the install_version() function from "devtools". 
+First, the "forensIT" package is installed. Next, the "devtools" package is installed to provide a range of tools for package mannagement. Following that, the "devtools" package is loaded into the R session using the library() function. Lastly, the "fbnet" package is installed at version "1.0.1" using the install_version() function from "devtools". 
 
 The following packages should be installed automatically, but in order to avoid bugs, the depencies could be called as follows:
 
@@ -24,9 +24,9 @@ library(ggplot2)
 library(pedprobr)
 ```
 
-In the provided code, several steps are taken to set up a simulation and visualization of a pedigree with marker information.
+In the code below, several steps are taken to set up a simulation and visualization of a pedigree with marker information.
 
-First, a random seed value of 123457 is set to ensure reproducibility of random processes in the code.
+First, a seed value of 123457 is set to ensure reproducibility of random processes in the code.
 
 Next, the variable freqs is assigned the first 15 markers obtained by applying the getfreqs() function to the "Argentina" dataset. The lapply() function is used to filter out values that are not equal to zero.
 
@@ -38,11 +38,9 @@ The setMarkers() function from the pedtools package is used to assign locus attr
 
 A simulated profile is generated using the profileSim() function, with the fam pedigree, generating 1 sample (N = 1), selecting individual ID 6, using 1 core for computation, and using the previously set seed.
 
-The variable QP is assigned the value 5, representing the Query person.
+The variable QP is assigned the value 5, representing the Query Person.
 
 Finally, a plot of the pedigree is generated using the plot() function, displaying markers 1 and 2, with hatching indicating typed members in the pedigree.
-
-
 
 ``` r
 seed <- 123457
