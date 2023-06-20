@@ -12,7 +12,7 @@ install.packages("devtoos")
 library(devtools)
 install_version("fbnet", "1.0.1")
 ```
-First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package development. Following that, the "devtools" package is loaded into the R session using the library() function. Lastly, the "fbnet" package is installed at version "1.0.1" using the install_version() function from "devtools". These steps ensure that the necessary packages are installed and available for use in the project.
+First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for pedigree analysis. Following that, the "devtools" package is loaded into the R session using the library() function. Lastly, the "fbnet" package is installed at version "1.0.1" using the install_version() function from "devtools". 
 
 The following packages should be installed automatically, but in order to avoid bugs, the depencies could be called as follows:
 
@@ -24,13 +24,11 @@ library(ggplot2)
 library(pedprobr)
 ```
 
-In the provided code segment, several steps are taken to set up a simulation and visualization of a pedigree with marker information and quantitative phenotypes.
+In the provided code, several steps are taken to set up a simulation and visualization of a pedigree with marker information.
 
 First, a random seed value of 123457 is set to ensure reproducibility of random processes in the code.
 
-Next, the variable freqs is assigned the first 15 elements of the result obtained by applying the getfreqs() function to the "Argentina" dataset. The lapply() function is used to filter out values that are not equal to zero.
-
-The variable pedName is set to 'ped5Ensemble', specifying the name of the pedigree.
+Next, the variable freqs is assigned the first 15 markers obtained by applying the getfreqs() function to the "Argentina" dataset. The lapply() function is used to filter out values that are not equal to zero.
 
 Then, a linear pedigree named fam is created with 2 founders using the linearPed() function.
 
@@ -38,7 +36,7 @@ Additional individuals are added to the pedigree using the addChildren() functio
 
 The setMarkers() function from the pedtools package is used to assign locus attributes to the pedigree, using the frequencies specified in the freqs variable.
 
-A simulated profile is generated using the profileSim() function, with the fam pedigree, generating 1 sample (N = 1), selecting individual ID 6, using 1 core for computation, and using the previously set random seed.
+A simulated profile is generated using the profileSim() function, with the fam pedigree, generating 1 sample (N = 1), selecting individual ID 6, using 1 core for computation, and using the previously set seed.
 
 The variable QP is assigned the value 5, representing the Query person.
 
@@ -63,7 +61,6 @@ plot(ped,marker=1:2, hatched = typedMembers(ped))
 # Obtaining the minimal genotype ensemble
 
 
-In the following code segment, several variables are defined and a simulation of minimal ensembles of genotypes is performed.
 
 The variable testIDs is assigned the value 2, representing the test individual(s) that will be included in the simulation.
 
@@ -71,9 +68,9 @@ The variable numSim is set to 100, indicating that 100 simulations will be perfo
 
 The variable numCores is assigned the value 2, specifying that two cores will be used for computation.
 
-The simMinimalEnsemble() function is then called with the parameters ped (the pedigree), QP (the query person), testIDs, freqs (the locus frequencies), and numCores. This function generates simulations of minimal ensembles of genotypes based on the provided pedigree and frequencies.
+The simMinimalEnsemble() function is then called with the parameters ped (the pedigree), QP (the query person), testIDs (relatives to be genotyped), freqs (the locus frequencies), and numCores. This function generates simulations of minimal ensembles of genotypes based on the provided pedigree and frequencies.
 
-The results of the simulation are stored in the variable simME, which can be further analyzed or used for subsequent calculations.
+The results of the simulation are stored in the variable simME, which can be further analyzed.
 
 
 ``` r
@@ -122,9 +119,9 @@ head(simME[["ITtable"]][["KL_bnet.pop"]])
 ```
 # Calculating IT metrics
 
-The code segment begins by defining the variable lsimEnsemble using the function simTestIDMarkers(). This function performs simulations of marker genotypes for the specified test individual(s) (testIDs) using the provided pedigree (ped). The number of simulations is determined by the numSim parameter, and the random seed is set to the previously defined seed value.
+The function simTestIDMarkers() performs simulations of marker genotypes for the specified test individual(s) (testIDs) using the provided pedigree (ped). The number of simulations is determined by the numSim parameter.
 
-The next line of code calculates the IT (information theory) values for the simulated ensemble using the function buildEnsembleITValues(). It takes the lsimu (simulated ensemble) and ITtab (IT table) as inputs. The bFullIT parameter is set to TRUE, indicating that the full IT values should be calculated.
+The next code calculates the IT (information theory) values for the simulated ensemble using the function buildEnsembleITValues(). It takes the lsimu (simulated ensemble) and ITtab (IT table) as inputs. The bFullIT parameter is set to TRUE, indicating that the full IT values should be calculated.
 
 Lastly, the code uses the function buildEnsembleCPTs() to construct the conditional probability tables (CPTs) for the simulated ensemble. It takes the lsimu (simulated ensemble) and lminimalProbGenoMOI (minimal probability of genotypes given modes of inheritance) from the simME object as inputs.
 
@@ -171,7 +168,7 @@ for(iid in seq_along(lensembleCPTs)){
 }
 ```
 
-In the provided code segment, the variable id is defined as a character vector containing the ID '2', and the variable sample is set to 1, indicating the specific sample of interest. The sample represent a specific MP's relative genotype. For that genotype, LR distributions could be computed.
+The variable id is defined as a character vector containing the ID '2', and the variable sample is set to 1, indicating the specific sample of interest. The sample represent a specific MP's relative genotype. For that genotype, LR distributions could be computed.
 
 Next, the conditional probability table (lprobG) is extracted from the lensembleCPTs object, using the id and sample variables to access the corresponding elements.
 
