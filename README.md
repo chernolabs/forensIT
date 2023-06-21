@@ -12,7 +12,7 @@ install.packages("devtoos")
 library(devtools)
 install_version("fbnet", "1.0.1")
 ```
-First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for pedigree analysis. Following that, the "devtools" package is loaded into the R session using the library() function. Lastly, the "fbnet" package is installed at version "1.0.1" using the install_version() function from "devtools". 
+First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package manipulation. Lastly, the "fbnet" package is, and MUST BE, installed at version "1.0.1" using the install_version() function from "devtools". 
 
 The following packages should be installed automatically, but in order to avoid bugs, the depencies could be called as follows:
 
