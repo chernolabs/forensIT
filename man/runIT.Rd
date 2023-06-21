@@ -13,7 +13,8 @@ runIT(
   bOnlyIT = FALSE,
   lprobg_ped = NULL,
   bsigma = FALSE,
-  blog = FALSE
+  blog = FALSE,
+  dep = TRUE
 )
 }
 \arguments{
@@ -34,6 +35,8 @@ runIT(
 \item{bsigma}{boolean to compute sigma}
 
 \item{blog}{boolean to write log}
+
+\item{dep}{check fbnet dependency}
 }
 \value{
 runIT

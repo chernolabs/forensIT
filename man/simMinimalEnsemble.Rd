@@ -13,7 +13,8 @@ simMinimalEnsemble(
   seed = 123457,
   bVerbose = TRUE,
   bJustGetNumber = FALSE,
-  bdbg = FALSE
+  bdbg = FALSE,
+  dep = TRUE
 )
 }
 \arguments{
@@ -34,10 +35,12 @@ simMinimalEnsemble(
 \item{bJustGetNumber}{boolean to just get the number of runs}
 
 \item{bdbg}{boolean to debug}
+
+\item{dep}{check dependency fbnet}
 }
 \value{
 list of results
 }
 \description{
-simMinimalEnsemble
+It performs simulations of minimal ensembles of genotypes
 }
