@@ -6,16 +6,19 @@
 #' @param freqs frequencies
 #' @param numCores number of cores
 #' @param seed seed
+#' @param dep check dependency fbnet
 #' @param bVerbose boolean to print information
 #' @param bJustGetNumber boolean to just get the number of runs
 #' @param bdbg boolean to debug
 #' @importFrom foreach foreach
 #' @importFrom foreach %dopar%
 #' @importFrom doParallel registerDoParallel
-#' @importFrom fbnet initBN buildCPTs buildBN 
+#' @importFrom fbnet buildCPTs buildBN
 #' @return list of results
 #' @export
-simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbose=TRUE,bJustGetNumber=FALSE,bdbg=FALSE){ #nolint
+simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbose=TRUE,bJustGetNumber=FALSE,bdbg=FALSE, dep = TRUE){ #nolint
+  if (dep == FALSE) {
+  initBN <- NULL}
   lLangeGoradia <- list()
   numGeno<-c()
   markerNames <- unlist(lapply(ped$MARKERS,function(x){attr(x,'name')}))
@@ -94,7 +97,7 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
         }
         pednew$available <- sort(c(pednew$available,as.numeric(testID[inew])))
         ped_fbnet <- convertPed(pednew)
-        pbn  <- fbnet::initBN(ped_fbnet)
+        pbn  <- initBN(ped_fbnet)
         bnet <- fbnet::buildBN(pbn,QP=QP)
         bn1  <- fbnet::buildCPTs(bnet) 
         resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
@@ -115,7 +118,7 @@ simMinimalEnsemble <- function(ped,QP,testID,freqs,numCores=1,seed=123457,bVerbo
         }
         pednew$available <- sort(c(pednew$available,as.numeric(testID[inew])))
         ped_fbnet <- convertPed(pednew)
-        pbn  <- fbnet::initBN(ped_fbnet)
+        pbn  <- initBN(ped_fbnet)
         bnet <- fbnet::buildBN(pbn,QP=QP)
         bn1  <- fbnet::buildCPTs(bnet) 
         resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)

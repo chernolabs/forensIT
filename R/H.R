@@ -6,7 +6,9 @@
 #' @return entropy
 #' @export
 H <- function(px, epsilon = 1e-20, normalized = FALSE) {
-  if (class(px) == "data.frame") px <- px[, 1]
+if (inherits(px, "data.frame")) {
+  px <- px[, 1]
+}
   i0 <- px == 0
   if (sum(i0) > 0) {
     px[i0] <- epsilon

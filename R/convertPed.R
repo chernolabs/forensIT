@@ -3,6 +3,7 @@
 #' @param x pedigree
 #' @param verbose print progress
 #' @import pedtools
+#' @importFrom paramlink linkdat
 #' @return paramlink object
 #' @export
 convertPed <- function(x, verbose = FALSE) { #nolint

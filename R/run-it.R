@@ -9,15 +9,17 @@
 #' @param lprobg_ped list of probG
 #' @param bsigma boolean to compute sigma
 #' @param blog boolean to write log
+#' @param dep check fbnet dependency
 #' @importFrom foreach foreach
 #' @importFrom foreach %dopar%
-#' @import doSNOW 
 #' @importFrom doParallel registerDoParallel
-#' @importFrom fbnet initBN buildCPTs buildBN
+#' @importFrom fbnet buildCPTs buildBN
 #' @import iterators
 #' @return runIT
-runIT <-function(lped=NULL,freqs,QP,dbg,numCores,bOnlyIT=FALSE,lprobg_ped=NULL,bsigma=FALSE,blog=FALSE){
-  irun <- NULL
+runIT <-function(lped=NULL,freqs,QP,dbg,numCores,bOnlyIT=FALSE,lprobg_ped=NULL,bsigma=FALSE,blog=FALSE, dep = TRUE){
+  irun <-  NULL
+  if (dep == FALSE) {
+  initBN <- function (){}}
   if(bOnlyIT && is.null(lped)) warning('bOnlyIT is TRUE but lprobG is NULL.')
   if(blog) writeLines(c(""), "log.txt")
   t1 <- Sys.time()
@@ -26,7 +28,7 @@ runIT <-function(lped=NULL,freqs,QP,dbg,numCores,bOnlyIT=FALSE,lprobg_ped=NULL,b
       #sink("log.txt", append=TRUE)
       if(blog) cat(paste("Starting irun",irun,"\n"),file='log.txt',append=TRUE)
       ped_fbnet <- convertPed(lped[[irun]])
-      pbn  <- fbnet::initBN(ped_fbnet)
+      pbn  <- initBN(ped_fbnet)
       bnet <- fbnet::buildBN(pbn,QP=QP)
       bn1  <- fbnet::buildCPTs(bnet) 
       resQ <- fbnet::velim.bn(bn1,ordMethod="min_fill",verbose=FALSE)
