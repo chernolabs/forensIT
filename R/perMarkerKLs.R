@@ -11,7 +11,6 @@
 #' @importFrom mispitools getfreqs
 #' @importFrom dplyr mutate
 #' @importFrom magrittr %>%
-#' @importFrom radiant.data rownames_to_column
 #'
 #' @examples
 #' library(forrel)
@@ -31,7 +30,8 @@ Allele2 <- Allele1 <- Genotype <- NULL
 for (i in 1:length(ped$MARKERS)) { #nolint
 df <- as.data.frame(pedprobr::oneMarkerDistribution(ped, MP,i))
 names(df) <- "CPT"
-df <- df %>% rownames_to_column(var = "Genotype")
+df$Genotype <- rownames(df)
+rownames(df) <- NULL
 df <- df %>%
   dplyr::mutate(Allele1 = sapply(strsplit(as.character(Genotype), "/"), `[`, 1),
          Allele2 = sapply(strsplit(as.character(Genotype), "/"), `[`, 2))
