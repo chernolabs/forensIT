@@ -1,6 +1,6 @@
 Package: forensIT
 Title: Information Theory Tools for Forensic Analysis
-Version: 0.0.9
+Version: 1.0.0
 Authors@R: 
    c(person(given = "Franco",
            family = "Marsico",
