@@ -29,7 +29,6 @@ Imports:
     hrbrthemes,
     gtools,
     pedtools, 
-    radiant.data, 
     reshape2,
     iterators,
     doParallel,
