@@ -24,7 +24,7 @@ Imports:
     dplyr,
     tidyr,
     magrittr,
-    fbnet (<= 1.0.1), 
+    fbnet, 
     foreach,
     hrbrthemes,
     gtools,
@@ -34,4 +34,4 @@ Imports:
     iterators,
     doParallel,
     paramlink,
-    doSNOW
+    methods
