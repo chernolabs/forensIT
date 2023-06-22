@@ -17,3 +17,11 @@ paramlink object
 \description{
 Convert a pedigree to a paramlink object
 }
+\examples{
+library(forrel)
+x = linearPed(2)
+plot(x)
+x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:2])
+x = profileSim(x, N = 1, ids = 2)
+convertPed(x)
+}

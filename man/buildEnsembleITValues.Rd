@@ -23,3 +23,14 @@ list of IT values
 \description{
 Build ensemble of IT values from a list of simulations
 }
+\examples{
+library(forrel)
+library(mispitools)
+freqs <- lapply(getfreqs(Argentina)[1:15], function(x) {x[x!=0]})
+fam  <- linearPed(2)
+fam  <- addChildren(fam, father =  1, mother =  2)
+fam  <- pedtools::setMarkers(fam, locusAttributes = freqs)
+ped  <- profileSim(fam, N = 1, ids = c(6)  , numCores = 1,seed=123)
+lsimEnsemble  <- simTestIDMarkers(ped,2,numSim=5,seed=123)
+lensembleIT   <- buildEnsembleITValues(lsimu=lsimEnsemble,ITtab=simME$ITtable,bFullIT = TRUE)
+}
