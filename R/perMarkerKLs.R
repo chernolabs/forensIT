@@ -37,7 +37,12 @@ df <- df %>%
          Allele2 = sapply(strsplit(as.character(Genotype), "/"), `[`, 2))
 
 pop <- as.data.frame(frequency[i])
-pop <- pop %>% radiant.data::rownames_to_column(var = "Allele")
+# Crear una nueva columna con los nombres de fila
+pop$Allele <- rownames(pop)
+
+# Eliminar los nombres de fila originales
+rownames(pop) <- NULL
+
 names(pop) <- c("Allele","freq")
 
 df <- df %>% mutate(RPT = ifelse(pop$freq[match(Allele1, pop$Allele)] == pop$freq[match(Allele2, pop$Allele)], 
