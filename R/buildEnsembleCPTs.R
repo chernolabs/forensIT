@@ -4,6 +4,17 @@
 #' @param lminimalProbGenoMOI list of minimal probabilities of genotypes given MOI # nolint
 #' @return list of CPTs
 #' @export
+#' @examples
+#' library(forrel)
+#' library(mispitools)
+#' freqs <- lapply(getfreqs(Argentina)[1:15], function(x) {x[x!=0]})
+#' fam  <- linearPed(2)
+#' fam  <- addChildren(fam, father =  1, mother =  2)
+#' fam  <- pedtools::setMarkers(fam, locusAttributes = freqs)
+#' ped  <- profileSim(fam, N = 1, ids = c(6)  , numCores = 1,seed=123)
+#' lsimEnsemble  <- simTestIDMarkers(ped,2,numSim=5,seed=123)
+#' lensembleIT   <- buildEnsembleITValues(lsimu=lsimEnsemble,ITtab=simME$ITtable,bFullIT = TRUE)
+#' lensembleCPTs <- buildEnsembleCPTs(lsimu=lsimEnsemble,lminimalProbGenoMOI=simME$lprobGenoMOI)
 buildEnsembleCPTs <- function(lsimu, lminimalProbGenoMOI){ # nolint
   aa <- simplify2array(lsimu, higher = FALSE)
   aa <- data.frame(sample = 1:nrow(lsimu[[1]]),id=rep(colnames(lsimu[[1]]), # nolint

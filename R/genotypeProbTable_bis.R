@@ -15,11 +15,7 @@ genotypeProbTable_bis <- function(bbn1,resQQ,bplot=FALSE,numMarkers=4, freq){
   
   # (3.1) analizo diferencias entre probabilidades ALELICAS y GENOTIPICAS
   lprobPconj <- lprobMconj <- lprobP <- lprobM <- lprobG<-list()
-  if(bplot){
-    par(mar=c(5,4,2,2))
-    layout(matrix(1:12,4,3,byrow=TRUE))
-  }
-  
+ 
   for(i in seq_along(bbn1$alelFreq)){
     ## ATENCION: tengo que comparar por separado la linea paterna y la materna!! 
     #matcheo filas de ambas tablas para comparar

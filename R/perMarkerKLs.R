@@ -37,10 +37,9 @@ df <- df %>%
          Allele2 = sapply(strsplit(as.character(Genotype), "/"), `[`, 2))
 
 pop <- as.data.frame(frequency[i])
-# Crear una nueva columna con los nombres de fila
+
 pop$Allele <- rownames(pop)
 
-# Eliminar los nombres de fila originales
 rownames(pop) <- NULL
 
 names(pop) <- c("Allele","freq")

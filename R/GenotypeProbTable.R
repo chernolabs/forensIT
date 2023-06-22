@@ -12,10 +12,6 @@ genotypeProbTable <- function(bbn1,resQQ,bplot=FALSE,numMarkers=4,lLoci){
   
   sysName<-unlist(lapply(strsplit(names(resQQ),"_",fixed=TRUE),function(x){return(x[2])}))
   lprobPconj <- lprobMconj <- lprobP <- lprobM <- lprobG<-list()
-  if(bplot){
-    par(mar=c(5,4,2,2))
-    layout(matrix(1:12,4,3,byrow=TRUE))
-  }
   for(i in seq_along(bbn1$alelFreq)){
     
     iop<-match(resQQ[[i]][,1],lLoci[[sysName[i]]][,c("Alelo")])

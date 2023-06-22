@@ -6,6 +6,15 @@
 #' @param seed seed
 #' @return list of simulations
 #' @export
+#' @examples
+#' library(forrel)
+#' library(mispitools)
+#' freqs <- lapply(getfreqs(Argentina)[1:15], function(x) {x[x!=0]})
+#' fam  <- linearPed(2)
+#' fam  <- addChildren(fam, father =  1, mother =  2)
+#' fam  <- pedtools::setMarkers(fam, locusAttributes = freqs)
+#' ped  <- profileSim(fam, N = 1, ids = c(6)  , numCores = 1,seed=123)
+#' lsimEnsemble  <- simTestIDMarkers(ped,2,numSim=5,seed=123)
 simTestIDMarkers<-function(ped,testID,numSim=10,seed=123457){ 
   set.seed(seed)
   markerNames <- unlist(lapply(ped$MARKERS,function(x){attr(x,'name')}))

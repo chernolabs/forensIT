@@ -6,6 +6,13 @@
 #' @importFrom paramlink linkdat
 #' @return paramlink object
 #' @export
+#' @examples
+#' library(forrel)
+#' x = linearPed(2)
+#' plot(x)
+#' x = setMarkers(x, locusAttributes = NorwegianFrequencies[1:2])
+#' x = profileSim(x, N = 1, ids = 2)
+#' convertPed(x)
 convertPed <- function(x, verbose = FALSE) { #nolint
   if (!requireNamespace("paramlink", quietly = TRUE))
     stop("Package 'paramlink' is not installed")
