@@ -4,6 +4,8 @@ The 'forensIT' package is a comprehensive statistical toolkit tailored for handl
 By leveraging information theory metrics, it enables accurate assessment of kinship, particularly when limited genetic evidence is available. 
 With a focus on optimizing statistical power, 'forensIT' empowers investigators to effectively prioritize family members, enhancing the reliability and efficiency of missing person investigations. 
 
+To install forensIT please run the following code on your R command line:
+
 Please, enter the following commands on R:
 
 ``` r
@@ -12,7 +14,16 @@ install.packages("devtoos")
 library(devtools)
 install_version("fbnet", "1.0.1")
 ```
+
 First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package manipulation. Lastly, the "fbnet" package is, and MUST BE, installed at version "1.0.1" using the install_version() function from "devtools". 
+
+
+Also, you can install the version under development with the following code:
+``` r
+library(devtools)
+install_github("chernolabs/forensIT")
+```
+
 
 The following packages should be installed automatically, but in order to avoid bugs, the depencies could be called as follows:
 
