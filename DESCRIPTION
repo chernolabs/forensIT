@@ -10,7 +10,7 @@ Authors@R:
            family = "Chernomoretz",
            role = c("aut"),
            email = "ariel@df.uba.ar"))
-Description: Open-source package for computing information theory metrics in forensic science.
+Description: The 'forensIT' package is a comprehensive statistical toolkit tailored for handling missing person cases. By leveraging information theory metrics, it enables accurate assessment of kinship, particularly when limited genetic evidence is available. With a focus on optimizing statistical power, 'forensIT' empowers investigators to effectively prioritize family members, enhancing the reliability and efficiency of missing person investigations.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
@@ -33,3 +33,5 @@ Imports:
     iterators,
     doParallel,
     paramlink
+Depends: 
+    R (>= 2.10)
