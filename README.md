@@ -1,3 +1,10 @@
+
+
+[![CRAN status](https://www.r-pkg.org/badges/version/mispitools)](https://CRAN.R-project.org/package=forensIT)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/mispitools?color=blue)](https://cran.r-project.org/package=forensIT)
+
+
+
 #  forensIT: Information Theory Tools for Forensic Analysis
 
 The 'forensIT' package is a comprehensive statistical toolkit tailored for handling missing person cases. 
