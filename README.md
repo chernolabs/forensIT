@@ -1,7 +1,7 @@
 
 
-[![CRAN status](https://www.r-pkg.org/badges/version/mispitools)](https://CRAN.R-project.org/package=forensIT)
-[![](https://cranlogs.r-pkg.org/badges/grand-total/mispitools?color=blue)](https://cran.r-project.org/package=forensIT)
+[![CRAN status](https://www.r-pkg.org/badges/version/forensIT)](https://CRAN.R-project.org/package=forensIT)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/forensIT?color=blue)](https://cran.r-project.org/package=forensIT)
 
 
 
