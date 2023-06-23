@@ -6,7 +6,6 @@ With a focus on optimizing statistical power, 'forensIT' empowers investigators 
 
 To install forensIT please run the following code on your R command line:
 
-Please, enter the following commands on R:
 
 ``` r
 install.packages("forensIT")
