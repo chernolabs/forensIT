@@ -1,5 +1,3 @@
-<img src="Icon.png" align="left" width="100">
-
 
 [![CRAN status](https://www.r-pkg.org/badges/version/forensIT)](https://CRAN.R-project.org/package=forensIT)
 [![](https://cranlogs.r-pkg.org/badges/grand-total/forensIT?color=blue)](https://cran.r-project.org/package=forensIT)
