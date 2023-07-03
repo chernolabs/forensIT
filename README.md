@@ -1,4 +1,4 @@
-<img src="icon.png" align="left" width="100">
+<img src="Icon.png" align="left" width="100">
 
 
 [![CRAN status](https://www.r-pkg.org/badges/version/forensIT)](https://CRAN.R-project.org/package=forensIT)
