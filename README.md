@@ -8,7 +8,10 @@
 
 The 'forensIT' package is a comprehensive statistical toolkit tailored for handling missing person cases. 
 By leveraging information theory metrics, it enables accurate assessment of kinship, particularly when limited genetic evidence is available. 
-With a focus on optimizing statistical power, 'forensIT' empowers investigators to effectively prioritize family members, enhancing the reliability and efficiency of missing person investigations. 
+With a focus on optimizing statistical power, 'forensIT' empowers investigators to effectively prioritize family members, enhancing the reliability and efficiency of missing person investigations. To cite foresIT please use the following reference:
+
+  -  Marsico, Sibila, Escobar and Chernomoretz, 2023 (http://dx.doi.org/10.2139/ssrn.4531590)
+
 
 To install forensIT please run the following code on your R command line:
 
