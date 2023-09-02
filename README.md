@@ -251,7 +251,7 @@ p1
 
 
 ## Working with Elston-Stewart
-Despite fonrensIT main functionalities work with fbnet, using the advantages of the Bayesian Network approach, it is also possible to work with Elston-Stewart algorithm. To this end, forensIT make use of the propr R packaga, part of pedsuite. In the following examples we show how to produce similar results obtained previously with the conditional probability table that comes from Elston-Stewart approach:
+Despite fonrensIT main functionalities work with fbnet, using the advantages of the Bayesian Network approach, it is also possible to work with Elston-Stewart algorithm. To this end, forensIT make use of the propr R package, part of pedsuite. In the following examples we show how to produce similar results obtained previously with the conditional probability table that comes from Elston-Stewart approach:
 
 KL (dits units) per marker could be obtained with the following commands:
 ``` r
