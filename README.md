@@ -37,6 +37,7 @@ The following packages should be installed automatically, but in order to avoid 
 
 ``` r
 library(forrel)
+library(fbnet)
 library(mispitools)
 library(tidyverse)
 library(ggplot2)
