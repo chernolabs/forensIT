@@ -39,6 +39,7 @@ The following packages should be installed automatically, but in order to avoid 
 library(forrel)
 library(fbnet)
 library(mispitools)
+library(pedtools)
 library(tidyverse)
 library(ggplot2)
 library(pedprobr)
