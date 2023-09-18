@@ -18,9 +18,6 @@ To install forensIT please run the following code on your R command line:
 
 ``` r
 install.packages("forensIT")
-install.packages("devtools")
-library(devtools)
-install_version("fbnet", "1.0.1")
 ```
 
 First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package manipulation. Lastly, the "fbnet" package is, and MUST BE, installed at version "1.0.1" using the install_version() function from "devtools". 
@@ -33,17 +30,27 @@ install_github("chernolabs/forensIT")
 ```
 
 
-The following packages should be installed automatically, but in order to avoid bugs, the depencies could be called as follows:
+The following packages should be installed automatically, but in order to avoid bugs, the depencies could be installed as follows:
+Tip: some of the packages require development libraries that should be installed before. If you are using Linux, you can run the following line in your terminal: sudo apt-get install libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libcairo2-dev
 
 ``` r
-library(forrel)
+install.packages(fbnet)
+install.packages(forrel)
+install.packages(mispitools)
+install.packages(pedtools)
+install.packages(tidyverse)
+install.packages(ggplot2)
+install.packages(pedprobr)
+
 library(fbnet)
+library(forrel)
 library(mispitools)
 library(pedtools)
 library(tidyverse)
 library(ggplot2)
 library(pedprobr)
 ```
+
 
 In the provided code, several steps are taken to set up a simulation and visualization of a pedigree with marker information.
 
