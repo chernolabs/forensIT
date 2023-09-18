@@ -18,7 +18,7 @@ To install forensIT please run the following code on your R command line:
 
 ``` r
 install.packages("forensIT")
-install.packages("devtoos")
+install.packages("devtools")
 library(devtools)
 install_version("fbnet", "1.0.1")
 ```
