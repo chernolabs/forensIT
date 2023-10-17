@@ -13,24 +13,7 @@ With a focus on optimizing statistical power, 'forensIT' empowers investigators 
   -  Marsico, Sibila, Escobar and Chernomoretz, 2023 (http://dx.doi.org/10.2139/ssrn.4531590)
 
 
-To install forensIT please run the following code on your R command line:
-
-
-``` r
-install.packages("forensIT")
-```
-
-First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package manipulation. Lastly, the "fbnet" package is, and MUST BE, installed at version "1.0.1" using the install_version() function from "devtools". 
-
-
-Also, you can install the version under development with the following code:
-``` r
-library(devtools)
-install_github("chernolabs/forensIT")
-```
-
-
-The following packages should be installed automatically, but in order to avoid bugs, the depencies could be installed as follows:
+The following packages should be installed previously to install forensIT as follows:
 Tip: some of the packages require development libraries that should be installed before. If you are using Linux, you can run the following line in your terminal: sudo apt-get install libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libcairo2-dev
 
 ``` r
@@ -50,6 +33,25 @@ library(tidyverse)
 library(ggplot2)
 library(pedprobr)
 ```
+
+
+To install forensIT please run the following code on your R command line:
+
+
+``` r
+install.packages("forensIT")
+```
+
+First, the "forensIT" package is installed, which enables forensic analysis and investigations using R. Next, the "devtools" package is installed to provide a range of tools for package manipulation. Lastly, the "fbnet" package is, and MUST BE, installed at version "1.0.1" using the install_version() function from "devtools". 
+
+
+Also, you can install the version under development with the following code:
+``` r
+library(devtools)
+install_github("chernolabs/forensIT")
+```
+
+
 
 
 In the provided code, several steps are taken to set up a simulation and visualization of a pedigree with marker information.
