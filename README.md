@@ -11,7 +11,7 @@ By leveraging information theory metrics, it enables accurate assessment of kins
 With a focus on optimizing statistical power, 'forensIT' empowers investigators to effectively prioritize family members, enhancing the reliability and efficiency of missing person investigations. To cite foresIT please use the following reference:
 
   -  Marsico, Sibila, Escobar and Chernomoretz, 2023 (http://dx.doi.org/10.2139/ssrn.4531590)
-
+  -  Marsico, Sibila, Escobar and Chernomoretz, 2024 (https://doi.org/10.1016/j.fsigen.2024.103025)
 
 The following packages should be installed previously to install forensIT as follows:
 Tip: some of the packages require development libraries that should be installed before. If you are using Linux, you can run the following line in your terminal: sudo apt-get install libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libcairo2-dev
