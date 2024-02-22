@@ -17,21 +17,13 @@ The following packages should be installed previously to install forensIT as fol
 Tip: some of the packages require development libraries that should be installed before. If you are using Linux, you can run the following line in your terminal: sudo apt-get install libharfbuzz-dev libfribidi-dev libfreetype6-dev libpng-dev libtiff5-dev libjpeg-dev libcairo2-dev
 
 ``` r
-install.packages(fbnet)
-install.packages(forrel)
-install.packages(mispitools)
-install.packages(pedtools)
-install.packages(tidyverse)
-install.packages(ggplot2)
-install.packages(pedprobr)
-
-library(fbnet)
-library(forrel)
-library(mispitools)
-library(pedtools)
-library(tidyverse)
-library(ggplot2)
-library(pedprobr)
+install.packages("fbnet")
+install.packages("forrel")
+install.packages("mispitools")
+install.packages("pedtools")
+install.packages("tidyverse")
+install.packages("ggplot2")
+install.packages("pedprobr")
 ```
 
 
@@ -75,6 +67,11 @@ Finally, a plot of the pedigree is generated using the plot() function, displayi
 
 
 ``` r
+library(forensIT)
+library(pedtools)
+library(mispitools)
+library(forrel)
+
 seed <- 123457
 freqs <- lapply(getfreqs(Argentina)[1:15], function(x) {x[x!=0]})
 pedName <- 'ped5Ensemble'
@@ -104,6 +101,8 @@ The results of the simulation are stored in the variable simME, which can be fur
 
 
 ``` r
+library(fbnet)
+
 testIDs <- 2
 numSim <- 100
 numCores <- 2
@@ -253,6 +252,8 @@ head(data)
 The following step creates a scatter plot using the "KLbnetpop" and "KLpopbnet" columns from the data data frame, where the points are colored based on the "id" column. The x-axis and y-axis labels are specified, and the resulting plot is shown. There are 100 data points, representing KL values for each specific genotype.
 
 ``` r
+library(ggplot2)
+
 p1 <- ggplot(data,aes(y=KLpopbnet,x=KLbnetpop,col=id)) +
   geom_point() + xlab("KL bnet pop") + ylab("KL pop bnet")
 p1
@@ -262,53 +263,4 @@ p1
 
 
 ## Working with Elston-Stewart
-Despite fonrensIT main functionalities work with fbnet, using the advantages of the Bayesian Network approach, it is also possible to work with Elston-Stewart algorithm. To this end, forensIT make use of the propr R package, part of pedsuite. In the following examples we show how to produce similar results obtained previously with the conditional probability table that comes from Elston-Stewart approach:
-
-KL (dits units) per marker could be obtained with the following commands:
-``` r
-freqs = getfreqs(Argentina[1:15])
-x = linearPed(2)
-plot(x)
-x = setMarkers(x, locusAttributes = freqs)
-x = profileSim(x, N = 1, ids = 2)
-perMarkerKLs(x,  freqs)
-``` 
-
-![](Ped.png)<!-- -->
-
-
-
-KL (dits) distributions for a specific relative to be potentially incorporated to the pedigree could be obtained as follows:
-``` r
-y = linearPed(2)
-x = setMarkers(y, locusAttributes = freqs)
-res <- distKL(ped = x, missing = 5, relative = 1, cores = 10, frequency = freqs, numsims = 5)
-res
-``` 
-    ##     KLpopped  KLpedpop
-    ##    1.1708052 1.6985469
-    ##    1.0524863 1.1335089
-    ##    1.0738553 1.1462661
-    ##    0.9431456 0.9980392
-    ##    1.4592184 2.0374789
-    ##    0.7972688 0.8059407
-    ##    1.0690941 1.0794834
-    ##    1.1146577 1.2404207
-    ##    0.8978531 1.0942142
-    ##    1.0621151 1.2631875
-
-
-
-A scatterplot could be obtained with the following code:
-``` r
-plotKL(res)
-``` 
-![](distKL.png)<!-- -->
-
-Note that lower results are obtained, compared with the first example. Indeed, in this case only the grandfather is genotyped, in the other case, the grandmother and the uncle are genotyped.
-
-KL distributions presented in the same units (Log10(LR)). Note that this implies plotting -KL(pop to ped)
-``` r
-unidimKLplot(res)
-``` 
-![](uniKL.png)<!-- -->
+Despite fonrensIT main functionalities work with fbnet, using the advantages of the Bayesian Network approach, it is also possible to work with Elston-Stewart algorithm. To this end, conditional probability tables could be obtained from propr R package, part of pedsuite: https://magnusdv.github.io/pedsuite/
