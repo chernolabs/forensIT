@@ -263,4 +263,4 @@ p1
 
 
 ## Working with Elston-Stewart
-Despite fonrensIT main functionalities work with fbnet, using the advantages of the Bayesian Network approach, it is also possible to work with Elston-Stewart algorithm. To this end, conditional probability tables could be obtained from propr R package, part of pedsuite: https://magnusdv.github.io/pedsuite/
+Despite fonrensIT main functionalities work with fbnet, using the advantages of the Bayesian Network approach, it is also possible to work with Elston-Stewart algorithm. To this end, conditional probability tables could be obtained from pedprobr R package, part of pedsuite: https://magnusdv.github.io/pedsuite/
