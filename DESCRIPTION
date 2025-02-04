@@ -31,7 +31,6 @@ Imports:
     pedtools, 
     reshape2,
     iterators,
-    doParallel,
-    paramlink
+    doParallel
 Depends: 
     R (>= 2.10)
